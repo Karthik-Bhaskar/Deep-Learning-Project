@@ -24,11 +24,6 @@ for filename in os.listdir(PNG_DIR):
             image = image ** (1.0/GAMMA)
             image = image * RGB_RANGE
 
-            # apply inverse gamma correction
-            #table = np.array([((i / RGB_RANGE) ** (1.0/GAMMA)) * 255 
-            #    for i in np.arange(0, 256)]).astype("uint8")
-            #image = cv2.LUT(image, table)
-
             filepath = os.path.join(PNG_PROCESSED_DIR, filename)
             cv2.imwrite(filepath, image)
         except Exception as err:
