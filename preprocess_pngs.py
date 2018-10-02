@@ -11,7 +11,7 @@ PNG_DIR = os.path.join(CURRENT_DIR, "PNG")
 PNG_PROCESSED_DIR = os.path.join(CURRENT_DIR, "PNG_PROCESSED")
 
 GAMMA = 2.2
-RGB_RANGE = 4095.0
+RGB_RANGE = 255.0
 
 for filename in os.listdir(PNG_DIR):
     if filename.lower().endswith(".png"):
@@ -20,9 +20,9 @@ for filename in os.listdir(PNG_DIR):
             image = cv2.imread(filepath)
             
             # apply inverse gamma correction
-            image = image / 4095.0
-            image = image ** (1.0/2.2)
-            image = image * 4095.0
+            image = image / RGB_RANGE
+            image = image ** (1.0/GAMMA)
+            image = image * RGB_RANGE
 
             # apply inverse gamma correction
             #table = np.array([((i / RGB_RANGE) ** (1.0/GAMMA)) * 255 
