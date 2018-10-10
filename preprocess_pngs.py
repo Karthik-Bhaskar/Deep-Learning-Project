@@ -8,6 +8,8 @@ import cv2
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 PNG_DIR = os.path.join(CURRENT_DIR, "PNG")
 PNG_PROCESSED_DIR = os.path.join(CURRENT_DIR, "PNG_PROCESSED")
+if not os.path.exists(PNG_PROCESSED_DIR): os.path.mkdir(PNG_PROCESSED_DIR)
+
 GAMMA, RGB_RANGE = 2.2, 255.0
 i, n = 0, 10
 force_process = True
