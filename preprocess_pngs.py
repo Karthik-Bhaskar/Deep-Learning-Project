@@ -8,13 +8,18 @@ import cv2
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 PNG_DIR = os.path.join(CURRENT_DIR, "PNG")
 PNG_PROCESSED_DIR = os.path.join(CURRENT_DIR, "PNG_PROCESSED")
-
-GAMMA = 2.2
-RGB_RANGE = 255.0
+GAMMA, RGB_RANGE = 2.2, 255.0
+i, n = 0, 10
+force_process = True
 
 for filename in os.listdir(PNG_DIR):
     if filename.lower().endswith(".png"):
-        if os.path.isfile(os.path.join(PNG_PROCESSED_DIR, filename)):
+        if n < 0 or i < n:
+            i += 1
+        else:
+            break
+
+        if os.path.isfile(os.path.join(PNG_PROCESSED_DIR, filename)) and not force_process:
             continue
 
         try:
