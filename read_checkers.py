@@ -3,13 +3,14 @@
 #
 
 import os
-import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import patches
 
 image_name = "Canon1DsMkIII_0001"
-csv = pd.read_csv(os.path.join("CHECKER", f"{image_name}_mask.txt"), header=None)
-ROI = csv.iloc[0]
+csv = np.genfromtxt(os.path.join("CHECKER", f"{image_name}_mask.txt"), delimiter=',')
+ROI = csv[0]
+coords = csv[1:]
 
 fig, axs = plt.subplots(1)
 
@@ -20,14 +21,11 @@ rect = patches.Rectangle((ROI[0], ROI[1]), ROI[2], ROI[3],
                          linewidth=1, edgecolor='r', facecolor='none')
 axs.add_patch(rect)
 
-l1 = csv.iloc[1]
-rect1 = patches.Rectangle((l1[0] + ROI[0], l1[1] + ROI[1]), l1[2], l1[3],
-                          linewidth=1, edgecolor='g', facecolor='none')
-axs.add_patch(rect1)
-
-l2 = csv.iloc[2]
-rect2 = patches.Rectangle((l2[0] + ROI[0], l2[1] + ROI[1]), l2[2], l2[3],
-                          linewidth=1, edgecolor='g', facecolor='none')
-axs.add_patch(rect2)
+for i in range(coords.shape[0]):
+    if i % 2 == 0:
+        xm = coords[i] + ROI[0]
+        ym = coords[i + 1] + ROI[1]
+        poly = patches.Polygon(np.array([xm, ym]).T)
+        axs.add_patch(poly)
 
 plt.show()
