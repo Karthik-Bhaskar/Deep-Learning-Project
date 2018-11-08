@@ -21,11 +21,10 @@ rect = patches.Rectangle((ROI[0], ROI[1]), ROI[2], ROI[3],
                          linewidth=1, edgecolor='r', facecolor='none')
 axs.add_patch(rect)
 
-for i in range(coords.shape[0]):
-    if i % 2 == 0:
-        xm = coords[i] + ROI[0]
-        ym = coords[i + 1] + ROI[1]
-        poly = patches.Polygon(np.array([xm, ym]).T)
-        axs.add_patch(poly)
+for i in range(0, coords.shape[0], 2):
+    xm = coords[i] + ROI[0]
+    ym = coords[i + 1] + ROI[1]
+    poly = patches.Polygon(np.array([xm, ym]).T)
+    axs.add_patch(poly)
 
 plt.show()
