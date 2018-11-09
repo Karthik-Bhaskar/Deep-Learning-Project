@@ -1,3 +1,5 @@
 CHECKER
 PNG
 PNG_PROCESSED
+__pycache__
+dataset.pickle
