@@ -10,9 +10,11 @@ PNG_DIR = os.path.join(CURRENT_DIR, "PNG")
 PNG_PROCESSED_DIR = os.path.join(CURRENT_DIR, "PNG_PROCESSED")
 if not os.path.exists(PNG_PROCESSED_DIR): os.mkdir(PNG_PROCESSED_DIR)
 
+i, n = 0, -1
+FORCE_PROCESS = True
+BREAK_ONERROR = True
+
 GAMMA, RGB_RANGE = 2.2, 4095.0
-i, n = 0, 10
-force_process = True
 
 for filename in sorted(os.listdir(PNG_DIR)):
     if filename.lower().endswith(".png"):
@@ -21,7 +23,7 @@ for filename in sorted(os.listdir(PNG_DIR)):
         else:
             break
 
-        if os.path.isfile(os.path.join(PNG_PROCESSED_DIR, filename)) and not force_process:
+        if os.path.isfile(os.path.join(PNG_PROCESSED_DIR, filename)) and not FORCE_PROCESS:
             continue
 
         try:
@@ -42,3 +44,5 @@ for filename in sorted(os.listdir(PNG_DIR)):
             cv2.imwrite(filepath, image)
         except Exception as err:
             print("Exception: {0}".format(err))
+            if BREAK_ONERROR:
+                break
