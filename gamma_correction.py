@@ -13,7 +13,7 @@ PNG_PROCESSED_DIR = os.path.join(CURRENT_DIR, "PNG_PROCESSED")
 if not os.path.exists(PNG_PROCESSED_DIR): os.mkdir(PNG_PROCESSED_DIR)
 
 i, n = 0, -1
-FORCE_PROCESS = True
+FORCE_PROCESS = False
 BREAK_ONERROR = True
 
 GAMMA, RGB_RANGE = 2.2, 4095.0
