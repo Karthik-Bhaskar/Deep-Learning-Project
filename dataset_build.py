@@ -50,7 +50,9 @@ for image_filename in sorted(os.listdir(PNG_PROCESSED_DIR)):
             y1 = min(p[0][1], p[1][1]) # min(y1, y2)
             x2 = max(p[2][0], p[1][0]) # max(x3, x2)
             y2 = max(p[2][1], p[3][1]) # max(y3, y4)
-            dataset_csv.write(f"{image_filename},{x1},{y1},{x2},{y2},{i}\n")
+            #width = x2 - x1
+            #height = y2 - y1
+            dataset_csv.write(f"{os.path.join('PNG_PROCESSED', image_filename)},{x1},{y1},{x2},{y2},{i}\n")
 
     except Exception as err:
         print("Exception: {0}".format(err))
