@@ -11,27 +11,30 @@ PNG_PROCESSED_DIR = os.path.join(CURRENT_DIR, "PNG_PROCESSED")
 CHECKER_DIR = os.path.join(CURRENT_DIR, "CHECKER")
 
 i, n = 0, -1
+ONLY_PROCESSED = True
 BREAK_ONERROR = True
 
 dataset_csv = open('dataset.csv', 'w')
 
 print("building dataset.")
 dataset = {}
-for image_filename in sorted(os.listdir(PNG_PROCESSED_DIR)):
-    if not image_filename.endswith(".PNG"):
-        print(f"Error: '{image_filename}' is not an image!")
-        if BREAK_ONERROR:
-            break
+for checkerfilename in sorted(os.listdir(CHECKER_DIR)):
+    if not checkerfilename.endswith("_mask.txt"):
+        # ignore not mask files
+        continue
 
     if n < 0 or i < n:
         i += 1
     else:
         break
 
+    image_filename = checkerfilename.replace("_mask.txt", ".PNG")
+    if not os.path.isfile(os.path.join(PNG_PROCESSED_DIR, image_filename)) and ONLY_PROCESSED:
+        continue
+
     try:
         # output dictionary
-        checkerfilename = image_filename.replace(".PNG", "_mask.txt")
-        checker_csv = np.genfromtxt(os.path.join("CHECKER", checkerfilename), delimiter=',')
+        checker_csv = np.genfromtxt(os.path.join(CHECKER_DIR, checkerfilename), delimiter=',')
         ROI = checker_csv[0]
         coords = checker_csv[1:]
         polys = []
