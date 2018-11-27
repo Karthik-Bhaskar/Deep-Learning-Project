@@ -2,4 +2,6 @@ CHECKER
 PNG
 PNG_PROCESSED
 __pycache__
+.vscode
 dataset.pickle
+dataset.csv
