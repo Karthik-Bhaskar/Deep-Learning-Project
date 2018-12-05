@@ -5,16 +5,18 @@
 import os
 import pickle
 import numpy as np
+from PIL import Image
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 PNG_PROCESSED_DIR = os.path.join(CURRENT_DIR, "PNG_PROCESSED")
 CHECKER_DIR = os.path.join(CURRENT_DIR, "CHECKER")
+MARK_DIR = os.path.join(CURRENT_DIR, "MARK")
 
 i, n = 0, -1
 ONLY_PROCESSED = True
 BREAK_ONERROR = True
 
-dataset_csv = open('dataset.csv', 'w')
+mark_csv = open('dataset.csv', 'w')
 
 print("building dataset.")
 dataset = {}
@@ -46,6 +48,11 @@ for checkerfilename in sorted(os.listdir(CHECKER_DIR)):
         imgdata = { "ROI": ROI, "polys": polys } #, "coords": coords }
         dataset[image_filename] = imgdata
 
+        # mark txt file per image
+        mark_filename = image_filename.replace(".PNG", ".txt")
+        image_size = Image.open(os.path.join(PNG_PROCESSED_DIR, image_filename)).size
+        mark_csv = open(os.path.join(MARK_DIR, mark_filename), 'w')
+
         # output csv
         for i in range(len(polys)):
             p = polys[i]
@@ -53,9 +60,16 @@ for checkerfilename in sorted(os.listdir(CHECKER_DIR)):
             y1 = min(p[0][1], p[1][1]) # min(y1, y2)
             x2 = max(p[2][0], p[1][0]) # max(x3, x2)
             y2 = max(p[2][1], p[3][1]) # max(y3, y4)
-            #width = x2 - x1
-            #height = y2 - y1
-            dataset_csv.write(f"{os.path.join('PNG_PROCESSED', image_filename)},{x1},{y1},{x2},{y2},{i}\n")
+            x_center = (x1 + x2) / 2
+            y_center = (y1 + y2) / 2
+            width = x2 - x1
+            height = y2 - y1
+            x_center /= image_size[0]
+            y_center /= image_size[1]
+            width /= image_size[0]
+            height /= image_size[1]
+            mark_csv.write(f"{i} {x_center} {y_center} {width} {height}\n")
+            #dataset_csv.write(f"{os.path.join('PNG_PROCESSED', image_filename)},{x1},{y1},{x2},{y2},{i}\n")
 
     except Exception as err:
         print("Exception: {0}".format(err))
