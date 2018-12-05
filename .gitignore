@@ -1,6 +1,7 @@
 CHECKER
 PNG
 PNG_PROCESSED
+MARK
 __pycache__
 .vscode
 dataset.pickle
