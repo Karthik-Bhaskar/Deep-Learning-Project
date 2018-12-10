@@ -2,6 +2,7 @@ CHECKER
 PNG
 PNG_PROCESSED
 MARK
+TEST
 __pycache__
 .vscode
 dataset.pickle
